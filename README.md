@@ -1,6 +1,6 @@
-# KLUE-STS BERT Question Answering Model 
+# KLUE-STS Sentence Similarity BERT Model 
 
-Try using the QA model as a BERT model trained on KLUE-MRC data
+Try using the Sentence Similarity model as a BERT model trained on KLUE-MRC data
 
 Github: [KLUE-benchmark/KLUE](https://github.com/KLUE-benchmark/KLUE)
 
