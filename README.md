@@ -28,7 +28,7 @@ model fine-tuning : [git](https://github.com/audrb96/KLUE-STS-roberta-base)
 ### Input example
 
 
-    curl -X POST "https://main-klue-sts-robert-audrb96.endpoint.ainize.ai" -H "accept: application/json" -H "Content-Type: multipart/form-data" -d "source={}&compare={}"
+    curl -X POST "https://master-sentence-similarity-audrb96.endpoint.ainize.ai" -H "accept: application/json" -H "Content-Type: multipart/form-data" -d "source={}&compare={}"
     
 
 ### Output example
@@ -41,8 +41,8 @@ model fine-tuning : [git](https://github.com/audrb96/KLUE-STS-roberta-base)
 
 ## * With swagger *
 
-API page: [Ainize](https://ainize.ai/audrb96/KLUE-STS-BERT?branch=master)
+API page: [Ainize](https://ainize.ai/audrb96/Sentence_Similarity)
 
 ## * With a Demo *
 
-Demo page: [End-point](https://main-klue-sts-robert-audrb96.endpoint.ainize.ai/)
+Demo page: [End-point](https://master-sentence-similarity-audrb96.endpoint.ainize.ai)
