@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>KLUE-MRC QA model</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+        integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<script type="text/javascript">
+    let time_obj = undefined;
+    let flag = undefined;
+    let chars = undefined;
+
+    window.onload = () => {
+        time_obj = document.getElementById("timer");
+        flag = false;       // 더블 클릭 체크
+    }
+
+
+    function double_submit_check() {
+        if (flag) {
+            console.log("double");
+            return true;
+        }
+        else {
+            flag = true;
+
+            return false;
+        }
+    }
+
+
+    function send_req() {
+        if (double_submit_check()){
+            return ;
+        }
+
+        let source = document.getElementById("source").value;
+        let compare = document.getElementById("compare").value;
+
+        if ( source == '') {
+            document.getElementById('warning').innerText = 'Please fill text!';
+            flag = false;
+            return ;
+        }
+
+        if ( compare == '') {
+            document.getElementById('warning').innerText = 'Please fill text!';
+            flag = false;
+            return ;
+        }
+
+        const formData = new FormData();
+        const url = "/generate";
+        let start = 0;
+
+        formData.append('source', source);
+        formData.append('compare', compare);
+
+        // timer
+        timer = setInterval(() => {
+            start += 1;
+            time_obj.innerText = `${start / 10} 's`;
+        }, 100);
+
+
+        fetch (url, { method: 'POST', body: formData, })
+        .then(response => {
+            if (response.status === 200) {
+                return response.json();
+            } else {
+                clearInterval(timer);
+                flag = false;
+            }
+        }).catch(err => {
+            clearInterval(timer);
+            flag = false;
+            document.getElementById('warning').innerText = err;
+        }).then(data => {
+            const result = document.getElementById('result');
+            result.innerHTML = data[0];
+            clearInterval(timer);
+            time_obj.innerText = 'Done!';
+            flag = false;
+        }).catch(err => {
+            clearInterval(timer);
+            flag = false;
+            document.getElementById('warning').innerText = err;
+        });
+
+    }
+
+</script>
+<body>
+    <div class="styles">
+        <style>
+                #button{
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    border-top-left-radius: 5pt;
+                    border-top-right-radius: 5pt;
+                    border-bottom-left-radius: 5pt;
+                    border-bottom-right-radius: 5pt;
+                }
+
+                #length{
+                    width: 70px;
+                    height: 30px;
+                    border-top-left-radius: 5pt;
+                    border-top-right-radius: 5pt;
+                    border-bottom-left-radius: 5pt;
+                    border-bottom-right-radius: 5pt;
+                }
+
+                table {
+                  border-spacing: 10px;
+                  border-collapse: separate;
+                }
+
+        </style>
+    </div>
+    <div class="container">
+        <div class="jumbotron mt-3">
+            <div class="intro">
+                <br>
+                <!-- Project title -->
+                <h1>KLUE-STS BERT Sentence Similarity Model</h1><br>
+                <a>Try using the Sentence Similarity model as a BERT model trained on KLUE-STS data</a><br><br>
+                <a>Github : </a> <a href="https://github.com/KLUE-benchmark/KLUE" target="_blank">KLUE-benchmark/KLUE</a><br>
+                <a>Open API : </a> <a href="https://ainize.ai/audrb96/KLUE-STS-BERT?branch=master" target="_blank">On Ainize</a><br>
+                <a>License : </a> <a href="https://github.com/KLUE-benchmark/KLUE/blob/main/License.md" target="_blank">CC-BY-SA-4.0</a><br>
+            </div>
+
+            <hr width="90%">
+
+            <div class="Notice">
+                <h3>Notice</h3>
+                <ul>
+                    <li>Context의 길이가 1200자보다 길면 Context가 중간에 잘려 결과물이 잘 안 나올 수 있습니다.</li>
+                </ul>
+            </div>
+
+            <hr width="90%">
+
+            <div class="sample">
+                <h3><label>Example</label></h3>
+                <h5><label>Source Sentence</label></h5>
+                <label>손흥민은 어린 나이에 유럽에 진출하였다.</label>
+                <h5><label>Sentences to compare to</label></h5>
+                <label>독일 U-19 리그에서 손흥민은 11경기 6골, 2부 리그에서는 6경기 1골을 넣으며 재능을 인정받아 2010년 6월 17세의 나이로 함부르크의 1군 팀 훈련에 참가, 프리시즌 활약으로 함부르크와 정식 계약을 한 후 10월 18세에 함부르크 1군 소속으로 독일 분데스리가에 데뷔하였다.</label><br><br>
+                <h5><label>Result</label></h5>
+                <label>0.5482</label><br><br>
+            </div>
+
+            <br><hr width="90%">
+
+            <div class="generate">
+                <h3>Try it!</h3><br>
+                <label>Source Sentence</label>
+                <div><textarea type="text" id="source" style="width:40%"></textarea></div>
+                <label>Sentences to compare to</label>
+                <div><textarea type="text" id="compare" style="width:80%; height: 100px"></textarea></div>
+                <button class="btn btn-primary btn=lg" type="submit" id="button" onclick="send_req();">Summit</button><br>
+                <label>Timer:&nbsp;</label><label id="timer">0.0</label><br>
+                <b><label id="warning" style="color:red;"></label></b>
+            </div>
+
+            <hr width="90%">
+
+            <div class="result">
+                <h3><label>Result</label></h3>
+                <label id="result"></label>
+            </div>
+
+            <br><hr width="50%">
+        </div>
+    </div>
+</body>
+</html>

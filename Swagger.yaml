@@ -1,0 +1,47 @@
+openapi: 3.0.1
+
+info:
+  title: KLUE-STS-BERT
+  version: 1.0.0
+  contact:
+    name: Myungkyu
+  description: |
+    Try using the Sentence Similarity model as a BERT model trained on KLUE-STS data
+    ---
+          How to use:
+          * Source Sentence, Sentences to compare to을 입력해주세요.
+          * context 길이가 길면 context 중간에 잘려 결과물이 잘 안 나올 수 있습니다.
+    ---
+servers:
+  - url: https://main-klue-sts-robert-audrb96.endpoint.ainize.ai
+
+paths:
+  /generate:
+    post:
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                context:
+                  type: string
+                question:
+                  type: string
+              required:
+                - source
+                - compare
+      responses: # Set response
+        '200':
+          description: "Successful Response"
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: "Bad Request Error"
+        '429':
+          description: "Too many requests"
+        '500':
+          description: "Server-side Error"
