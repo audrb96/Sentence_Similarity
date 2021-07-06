@@ -8,6 +8,10 @@ Open API: [On Ainize](https://ainize.ai/audrb96/KLUE-STS-BERT?branch=main)
 
 License: [CC-BY-SA-4.0](https://github.com/KLUE-benchmark/KLUE/blob/main/License.md)
 
+model : [huggingface](https://huggingface.co/ParkMyungkyu/KLUE-STS-roberta-base)
+
+model fine-tuning : [git](https://github.com/audrb96/KLUE-STS-roberta-base)
+
 ### Post parameter
 
     source: 소스 sentence
