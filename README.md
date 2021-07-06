@@ -41,7 +41,7 @@ model fine-tuning : [git](https://github.com/audrb96/KLUE-STS-roberta-base)
 
 ## * With swagger *
 
-API page: [Ainize](https://ainize.ai/audrb96/Sentence_Similarity)
+API page: [Ainize](https://ainize.ai/audrb96/Sent****ence_Similarity)
 
 ## * With a Demo *
 
