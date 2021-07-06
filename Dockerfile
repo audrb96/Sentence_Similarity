@@ -1,4 +1,4 @@
-FROM Myungkyu/sts-roberta-base:1
+FROM ParkMyungkyu/KLUE-STS-roberta-base
 
 WORKDIR /app
 RUN pip install -U sentence-trasformers
