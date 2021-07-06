@@ -1,7 +1,7 @@
 FROM python:3.8-slim-buster
 
 WORKDIR /app
-RUN pip install -U sentence-trasformers
+RUN pip install -U sentence-transformers
 RUN pip install flask torch
 
 COPY . .
